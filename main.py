@@ -88,7 +88,12 @@ while clicked_count < int(a)+1:
         #將 WebDriver 的控制權轉移到新打開的窗口
         driver.switch_to.window(new_window)
         #讀取網頁
-        new_page_html = driver.page_source
+        try:
+            new_page_html = driver.page_source
+        except TimeoutError:
+            driver.refresh()
+            new_page_html = driver.page_source
+            pass
         #這是抓取單一物件的相關資訊的陣列
         data_all = []
         time.sleep(1)
@@ -153,14 +158,13 @@ while clicked_count < int(a)+1:
         #--------------------------------------------------------- 
     #讀取主頁面的資訊
     page_html = driver.page_source
-    #try:
-    #    page = driver.find_element(By.CLASS_NAME,"house__list__pagenum")
-    #    page.find_element(By.XPATH, "//a[text()='>']").click
-    #except NoSuchElementException:
-    #    break
+    try:
+        page = driver.find_element(By.CLASS_NAME,"house__list__pagenum")
+        page.find_element(By.XPATH, "//a[text()='>']").click
+    except NoSuchElementException:
+        break
 #-------------------------------------------------------------------
 #進行把資料匯入mysql並告知新增幾筆資料
 inserted_count = insert_data(data_all_last)
 print("插入了 {} 条新数据".format(inserted_count))
 #-------------------------------------------------------------------
-
