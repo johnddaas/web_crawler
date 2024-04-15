@@ -2,10 +2,10 @@ import mysql.connector
 
 def insert_data(data):
     connection = mysql.connector.connect(
-        host='192.168.100.21',
-        user='john',
-        password='0731',
-        database='house'
+        host='host_ip',
+        user='DB_user',
+        password='DB_password',
+        database='database'
     )
     cursor = connection.cursor()
 
